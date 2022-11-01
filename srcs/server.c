@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eukwon <eukwon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eukwon <eukwon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:08:12 by eukwon            #+#    #+#             */
-/*   Updated: 2022/10/05 04:55:53 by eukwon           ###   ########.fr       */
+/*   Updated: 2022/11/01 14:33:47 by eukwon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	print_client_pid(pid_t client_pid)
 {
-	ft_putstr_fd("\n[Client PID: ", 1);
-	ft_putnbr_fd(client_pid, 1);
-	ft_putstr_fd("]\n", 1);
+	ft_putstr_fd(" [Client PID: ", STDOUT_FILENO);
+	ft_putnbr_fd(client_pid, STDOUT_FILENO);
+	ft_putstr_fd("]\n", STDOUT_FILENO);
 }
 
 static void	put_bit(int sig, siginfo_t *info, void *context)
@@ -37,10 +37,10 @@ static void	put_bit(int sig, siginfo_t *info, void *context)
 			print_client_pid(client_pid);
 			kill(client_pid, SIGUSR2);
 			client_pid = 0;
-			system("leaks server");
+			// system("leaks server");
 			return ;
 		}
-		ft_putchar_fd(c, 1);
+		ft_putchar_fd(c, STDOUT_FILENO);
 		c = 0;
 		kill(client_pid, SIGUSR1);
 	}
@@ -52,9 +52,9 @@ int	main(void)
 {
 	struct sigaction	s_sigaction;
 
-	ft_putstr_fd("[Server PID: ", 1);
-	ft_putnbr_fd(getpid(), 1);
-	ft_putstr_fd("]\n", 1);
+	ft_putstr_fd("[Server PID: ", STDOUT_FILENO);
+	ft_putnbr_fd(getpid(), STDOUT_FILENO);
+	ft_putstr_fd("]\n", STDOUT_FILENO);
 	s_sigaction.sa_sigaction = put_bit;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &s_sigaction, 0);
