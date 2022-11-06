@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eukwon <eukwon@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: eukwon <eukwon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:08:12 by eukwon            #+#    #+#             */
-/*   Updated: 2022/11/01 14:33:47 by eukwon           ###   ########.fr       */
+/*   Updated: 2022/11/06 11:10:38 by eukwon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	put_bit(int sig, siginfo_t *info, void *context)
 			print_client_pid(client_pid);
 			kill(client_pid, SIGUSR2);
 			client_pid = 0;
-			// system("leaks server");
 			return ;
 		}
 		ft_putchar_fd(c, STDOUT_FILENO);

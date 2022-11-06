@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eukwon <eukwon@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: eukwon <eukwon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:08:18 by eukwon            #+#    #+#             */
-/*   Updated: 2022/11/01 14:33:28 by eukwon           ###   ########.fr       */
+/*   Updated: 2022/11/06 16:39:37 by eukwon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-static void	send_bit(int pid, char *str)
+static int	send_bit(int pid, char *str)
 {
 	int		i;
 	char	c;
@@ -26,19 +26,16 @@ static void	send_bit(int pid, char *str)
 		while (i < 8)
 		{
 			if (c << i & 128)
-				kill(pid, SIGUSR2);
+				if (kill(pid, SIGUSR2) == -1)
+					return (-1);
 			else
-				kill(pid, SIGUSR1);
+				if (kill(pid, SIGUSR1) == -1)
+					return (-1);
 			usleep(100);
 			i++;
 		}
 	}
-	return ;
-	while (i--)
-	{
-		kill(pid, SIGUSR1);
-		usleep(100);
-	}
+	return (0);
 }
 
 static void	handler_sigusr(int sig)
@@ -52,21 +49,32 @@ static void	handler_sigusr(int sig)
 		ft_putstr_fd("Send message to Server: SUCCESS (", STDOUT_FILENO);
 		ft_putnbr_fd(received, STDOUT_FILENO);
 		ft_putstr_fd("bytes)\n", STDOUT_FILENO);
-		// system("leaks client")
-;		exit(0);
+		exit(0);
 	}
 }
 
 int	main(int argc, char *argv[])
 {
+	int	check_server;
+
 	if (argc != 3 || !ft_strlen(argv[2]))
+	{
+		ft_putstr_fd("USAGE: ./client [Server PID] [Message]\n", STDOUT_FILENO);
 		exit(0);
+	}
 	ft_putstr_fd("[Client PID: ", STDOUT_FILENO);
 	ft_putnbr_fd(getpid(), STDOUT_FILENO);
 	ft_putstr_fd("]\n", STDOUT_FILENO);
 	signal(SIGUSR1, handler_sigusr);
 	signal(SIGUSR2, handler_sigusr);
-	send_bit(ft_atoi(argv[1]), argv[2]);
+	check_server = send_bit(ft_atoi(argv[1]), argv[2]);
 	while (1)
+	{
+		if (check_server == -1)
+		{
+			ft_putstr_fd("Send message to Server: FAIL\n", STDOUT_FILENO);
+			exit(0);
+		}
 		pause();
+	}
 }

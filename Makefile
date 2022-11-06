@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eukwon <eukwon@student.42seoul.kr>         +#+  +:+       +#+         #
+#    By: eukwon <eukwon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/02 17:08:28 by eukwon            #+#    #+#              #
-#    Updated: 2022/11/01 14:51:30 by eukwon           ###   ########.fr        #
+#    Updated: 2022/11/06 11:36:59 by eukwon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SERVER = server
 CLIENT = client
 
 CC = cc
-CFLAG = -Wall -Wextra -Werror -g
+CFLAG = -Wall -Wextra -Werror
 
 AR = ar
 ARFLAG = -crs
