@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eukwon <eukwon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eukwon <eukwon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:08:18 by eukwon            #+#    #+#             */
-/*   Updated: 2022/11/06 16:39:37 by eukwon           ###   ########.fr       */
+/*   Updated: 2022/11/07 07:56:41 by eukwon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ static int	send_bit(int pid, char *str)
 		while (i < 8)
 		{
 			if (c << i & 128)
+			{
 				if (kill(pid, SIGUSR2) == -1)
 					return (-1);
+			}
 			else
+			{
 				if (kill(pid, SIGUSR1) == -1)
 					return (-1);
+			}
 			usleep(100);
 			i++;
 		}
