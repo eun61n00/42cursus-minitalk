@@ -6,19 +6,17 @@
 /*   By: eukwon <eukwon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:08:18 by eukwon            #+#    #+#             */
-/*   Updated: 2022/11/07 07:56:41 by eukwon           ###   ########.fr       */
+/*   Updated: 2022/11/07 15:23:00 by eukwon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-static int	send_bit(int pid, char *str)
+static int	send_bit(int pid, char *str, int str_len)
 {
 	int		i;
 	char	c;
-	int		str_len;
 
-	str_len = ft_strlen(str);
 	while (str_len-- > -1)
 	{
 		i = 0;
@@ -71,7 +69,7 @@ int	main(int argc, char *argv[])
 	ft_putstr_fd("]\n", STDOUT_FILENO);
 	signal(SIGUSR1, handler_sigusr);
 	signal(SIGUSR2, handler_sigusr);
-	check_server = send_bit(ft_atoi(argv[1]), argv[2]);
+	check_server = send_bit(ft_atoi(argv[1]), argv[2], ft_strlen(argv[2]));
 	while (1)
 	{
 		if (check_server == -1)
